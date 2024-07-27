@@ -3,6 +3,8 @@ from aiogram.utils import executor
 from aiogram.types import WebAppInfo
 import os
 from aiohttp import web
+import asyncio
+
 
 API_TOKEN = os.getenv('API_TOKEN', '7439794203:AAEQGaP_uSsTh7c5onzP1VMrLo9VO1rmmtk')
 
