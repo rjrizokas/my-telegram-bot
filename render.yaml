@@ -3,11 +3,8 @@ services:
     name: telegram-bot
     env: python
     repo: https://github.com/rjrizokas/my-telegram-bot
-    entrypoint: python src/main.py
     buildCommand: pip install -r requirements.txt
     startCommand: python src/main.py
     envVars:
       - key: API_TOKEN
         value: "7439794203:AAEQGaP_uSsTh7c5onzP1VMrLo9VO1rmmtk"
-      - key: PORT
-        value: "10000"
