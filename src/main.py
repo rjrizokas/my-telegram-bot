@@ -1,9 +1,13 @@
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils.executor import start_webhook
-from aiohttp import web
-
 import logging
 import os
+from aiohttp import web
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -51,23 +55,26 @@ async def on_shutdown(dp):
     except Exception as e:
         logger.error(f"Failed to delete webhook: {e}")
 
+
+
 async def handle_root(request):
     return web.Response(text="Hello, this is the root endpoint!")
-
-app = web.Application()
-app.router.add_get('/', handle_root)
-
-# Настройка вебхука и других обработчиков
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 10000))  # Render автоматически установит значение PORT
     logger.info(f"Starting webhook on port {port}")
+
+    app = web.Application()
+    app.router.add_get('/', handle_root)  # Добавляем обработчик для корневого URL
+
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
         on_startup=on_startup,
         on_shutdown=on_shutdown,
         skip_updates=True,
+        app=app,  # Передаем приложение aiohttp
         host='0.0.0.0',
         port=port
     )
+
