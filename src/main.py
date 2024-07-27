@@ -9,13 +9,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-# Настройка логирования
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 API_TOKEN = os.getenv('API_TOKEN', '7439794203:AAEQGaP_uSsTh7c5onzP1VMrLo9VO1rmmtk')  # Установите ваш API токен
 
-WEBHOOK_HOST = os.getenv('RENDER_EXTERNAL_URL', 'https://my-web-app-wordly-tg.onrender.com')  # URL вашего сервиса на Render
+WEBHOOK_HOST = os.getenv('RENDER_EXTERNAL_URL', 'https://my-telegram-bot-11ag.onrender.com')  # URL вашего сервиса на Render
 WEBHOOK_PATH = '/webhook'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
@@ -55,17 +52,17 @@ async def on_shutdown(dp):
     except Exception as e:
         logger.error(f"Failed to delete webhook: {e}")
 
-
-
-async def handle_root(request):
-    return web.Response(text="Hello, this is the root endpoint!")
-
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 10000))  # Render автоматически установит значение PORT
-    logger.info(f"Starting webhook on port {port}")
+    from aiohttp import web
+
+    async def handle(request):
+        return web.Response(text="Bot is running")
 
     app = web.Application()
-    app.router.add_get('/', handle_root)  # Добавляем обработчик для корневого URL
+    app.router.add_get('/', handle)
+
+    port = int(os.getenv('PORT', 10000))  # Render автоматически установит значение PORT
+    logger.info(f"Starting webhook on port {port}")
 
     start_webhook(
         dispatcher=dp,
@@ -73,8 +70,7 @@ if __name__ == '__main__':
         on_startup=on_startup,
         on_shutdown=on_shutdown,
         skip_updates=True,
-        app=app,  # Передаем приложение aiohttp
+        app=app,
         host='0.0.0.0',
         port=port
     )
-
