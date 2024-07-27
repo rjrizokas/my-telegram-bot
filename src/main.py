@@ -1,5 +1,7 @@
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils.executor import start_webhook
+from aiohttp import web
+
 import logging
 import os
 
@@ -48,6 +50,14 @@ async def on_shutdown(dp):
         logger.info("Webhook deleted")
     except Exception as e:
         logger.error(f"Failed to delete webhook: {e}")
+
+async def handle_root(request):
+    return web.Response(text="Hello, this is the root endpoint!")
+
+app = web.Application()
+app.router.add_get('/', handle_root)
+
+# Настройка вебхука и других обработчиков
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 10000))  # Render автоматически установит значение PORT
