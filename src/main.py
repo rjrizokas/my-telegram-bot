@@ -5,10 +5,6 @@ import os
 from aiohttp import web
 import asyncio
 from datetime import datetime, timedelta
-import locale
-
-# Устанавливаем локаль для отображения дня недели на русском языке
-locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
 
 API_TOKEN = os.getenv('API_TOKEN', '7439794203:AAEQGaP_uSsTh7c5onzP1VMrLo9VO1rmmtk')
 
@@ -20,15 +16,14 @@ allowed_users2 = ["rjrizo", "nft337"]
 
 # Словарь с правильными формами дней недели в родительном падеже
 day_names = {
-    "понедельник": "понедельник",
-    "вторник": "вторник",
-    "среда": "среду",
-    "четверг": "четверг",
-    "пятница": "пятницу",
-    "суббота": "субботу",
-    "воскресенье": "воскресенье"
+    "monday": "понедельник",
+    "tuesday": "вторник",
+    "wednesday": "среду",
+    "thursday": "четверг",
+    "friday": "пятницу",
+    "saturday": "субботу",
+    "sunday": "воскресенье"
 }
-
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -63,10 +58,8 @@ async def start(message: types.Message):
 
     await message.answer('Что наша жизнь?', reply_markup=markup)
 
-
 async def handle_root(request):
     return web.Response(text="Hello! The bot is running.", content_type='text/html')
-
 
 if __name__ == '__main__':
     app = web.Application()
