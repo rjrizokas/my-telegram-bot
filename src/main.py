@@ -24,9 +24,7 @@ async def start(message: types.Message):
         url=f'https://rjrizokas.github.io/my-web-app-wordly/wordle1.html?user_id={user_id}')))
     markup.add(types.KeyboardButton('редактор словаря', web_app=WebAppInfo(
         url=f'https://rjrizokas.github.io/my-web-app-wordly/add_word.html')))
-    markup.add(types.KeyboardButton('результаты за вчера', web_app=WebAppInfo(
-        url=f'https://rjrizokas.github.io/my-web-app-wordly/result.html')))
-    markup.add(types.KeyboardButton('результаты за вчера v2', web_app=WebAppInfo(
+    markup.add(types.KeyboardButton('результаты', web_app=WebAppInfo(
         url=f'https://rjrizokas.github.io/my-web-app-wordly/result2.html')))
     if message.from_user.username in allowed_users2:
         markup.add(types.KeyboardButton('загадать слово от RJ', web_app=WebAppInfo(
